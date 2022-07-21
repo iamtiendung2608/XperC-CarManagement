@@ -32,28 +32,4 @@ public class CarManagementApplication {
 		return new Docket(DocumentationType.SWAGGER_2).select()
 				.apis(RequestHandlerSelectors.basePackage("com.example.demo")).build();
 	}
-
-	/* Init data when run server in first time */
-	@Bean
-	public CommandLineRunner initData(CarRepo carRepo, ManufactureRepo manufactureRepo){
-		return args -> {
-//			Manufacture Honda =	new Manufacture("Honda", "23 Ly Thuong Kiet - P9 - Q10");
-//			Manufacture Toyota = new Manufacture("Toyota", "23 Nguyen Van Cu - Q5");
-//			manufactureRepo.save(Honda);
-//			manufactureRepo.save(Toyota);
-//
-//			List<Car>carList = Arrays.asList(
-//					new Car("Car 1",Honda, LocalDate.of(2022,1,27)),
-//					new Car("Car 2",Honda, LocalDate.of(2020,12,12)),
-//					new Car("Car 2",Toyota, LocalDate.of(2022,11,20)),
-//					new Car("Car 1",Toyota, LocalDate.of(2022,10,7)),
-//					new Car("Car 999",Honda, LocalDate.of(2022,8,2)),
-//					new Car("Car 5",Toyota, LocalDate.of(2022,4,12)),
-//					new Car("Car 3",Toyota, LocalDate.of(2019,5,15)),
-//					new Car("Car 4",Toyota, LocalDate.of(2025,7,25)),
-//					new Car("Car 6",Toyota, LocalDate.of(2012,8,10))
-//					);
-//			carList.forEach(element -> carRepo.save(element));
-		};
-	}
 }

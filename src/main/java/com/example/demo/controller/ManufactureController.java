@@ -4,12 +4,14 @@
 
 package com.example.demo.controller;
 
+import com.example.demo.dto.ManufactureDTO;
 import com.example.demo.exception.ManufactureNotFoundException;
 import com.example.demo.model.Manufacture;
 import com.example.demo.repo.ManufactureRepo;
 import com.example.demo.service.ManufactureServiceImp;
 import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,13 +30,12 @@ public class ManufactureController {
 
     /**
      * Function for paging manufactures return from server
-     * @param pageNumber: 2 manufactures for each page, default page = 0
+     * @param pageable: request param include sort, pagesize, pagenumber
      * @return ResponseEntity contains List of manufactures in database with paging
      * */
     @GetMapping("/manufacture")
-    public ResponseEntity<List<Manufacture>>getAllManufacture
-            (@RequestParam(name = "p", required = false, defaultValue = "0")int pageNumber) {
-        return ResponseEntity.ok().body(manufactureServiceImp.findAllManufacture(pageNumber));
+    public ResponseEntity<List<ManufactureDTO>>getAllManufacture(Pageable pageable) {
+        return ResponseEntity.ok().body(manufactureServiceImp.findAllManufacture(pageable));
     }
 
     /**
@@ -43,8 +44,8 @@ public class ManufactureController {
      * @return HttpStatus.CREATED indicate that create manufacture created success
      * */
     @PostMapping("/manufacture/add")
-    public ResponseEntity<String>getAllManufacture(@RequestBody Manufacture manufacture) {
-        manufactureServiceImp.addManufacture(manufacture);
+    public ResponseEntity<String>getAllManufacture(@RequestBody ManufactureDTO manufacture) {
+        manufactureServiceImp.editManufacture(manufacture);
         return new ResponseEntity<>("New manufacture created success", HttpStatus.CREATED);
     }
 
@@ -55,9 +56,9 @@ public class ManufactureController {
      * @return ResponseEntity with the value of that manufacture
      * */
     @GetMapping("/manufacture/update/{id}")
-    public ResponseEntity<Manufacture>getUpdateManufacture(@PathVariable("id") int id){
+    public ResponseEntity<ManufactureDTO>getUpdateManufacture(@PathVariable("id") int id){
         try {
-            Manufacture manufacture = manufactureServiceImp.findById(id);
+            ManufactureDTO manufacture = manufactureServiceImp.findById(id);
             return ResponseEntity.ok().body(manufacture);
         } catch (ManufactureNotFoundException e) {
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -70,9 +71,9 @@ public class ManufactureController {
      * @return HttpStatus.ACCEPTED indicate update accepted
      * */
     @PutMapping("/manufacture/update")
-    public ResponseEntity<String>UpdateManufacture(@RequestBody Manufacture manufacture){
+    public ResponseEntity<String>UpdateManufacture(@RequestBody ManufactureDTO manufacture){
         manufactureServiceImp.editManufacture(manufacture);
-        return new ResponseEntity<>("Update manufacture success", HttpStatus.ACCEPTED);
+        return new ResponseEntity<>("Update manufacture success", HttpStatus.NO_CONTENT);
     }
 
     /**
@@ -82,11 +83,7 @@ public class ManufactureController {
      * */
     @DeleteMapping("/manufacture/delete/{id}")
     public ResponseEntity<String>deleteManufacture(@PathVariable("id") int id){
-        try {
-            manufactureServiceImp.deleteManufacture(id);
-        } catch (ManufactureNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
-        }
-        return ResponseEntity.ok().body("Delete manufacture success");
+        manufactureServiceImp.deleteManufacture(id);
+        return new ResponseEntity<>("Delete manufacture success", HttpStatus.NO_CONTENT);
     }
 }

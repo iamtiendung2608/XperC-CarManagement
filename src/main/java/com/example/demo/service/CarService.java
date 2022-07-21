@@ -1,8 +1,11 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.CarDTO;
 import com.example.demo.exception.CarNotFoundException;
 import com.example.demo.model.Car;
 import com.example.demo.model.Manufacture;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,17 +14,15 @@ import java.util.List;
 */
 public interface CarService {
     /* Find card in database with paging */
-    List<Car>findAllCar(int pageNum);
+    List<CarDTO> findAllCar(Pageable pageable);
     /* Find card in database by car's name */
-    List<Car>findByCarName(String carName, int pageNum);
+    List<CarDTO>findByCarName(String carName, Pageable pageable);
     /* Find card in database having common manufacture */
-    List<Car>findByManufacture(Manufacture manufacture, int pageNum);
+    List<CarDTO>findByManufacture(Manufacture manufacture, Pageable pageable);
     /* Find card in database by ID */
-    Car findByID(int carId) throws CarNotFoundException;
-    /* Add new car to database */
-    void addNewCar(Car newCar);
+    CarDTO findByID(int carId) throws CarNotFoundException;
     /* Update exist car in database */
-    void editCar(Car updateCar) throws CarNotFoundException;
+    void editCar(CarDTO updateCar);
     /* Delete exist car in database by ID */
-    void deleteCar(int carId) throws CarNotFoundException;
+    void deleteCar(int carId);
 }
